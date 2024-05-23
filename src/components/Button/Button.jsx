@@ -1,15 +1,8 @@
-import { useState } from 'react';
 import './Button.css';
 
-function Button() {
-  const [text, setText] = useState('hI');
-  const cons = () => {
-    setText('123');
-    // console.log(text);
-  };
-
+function Button({ text, onClick }) {
   return (
-    <button onClick={cons} className="button accent">
+    <button className="button accent" onClick={onClick}>
       {text}
     </button>
   );

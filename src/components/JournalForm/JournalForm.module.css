@@ -4,6 +4,46 @@
   gap: 10px;
 }
 
+.input-title {
+  border: none;
+  background: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: normal;
+  border-bottom: 1px solid #423f3f;
+  width: 100%;
+}
+
+.input {
+  border: none;
+  background: none;
+  border-bottom: 1px solid #423f3f;
+  width: 100%;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 100px;
+}
+
+.input-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.input-textarea {
+  resize: vertical;
+}
+
 .invalid {
   border: 1px solid red;
   background: rgb(113, 13, 13);

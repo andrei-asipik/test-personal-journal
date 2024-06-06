@@ -1,45 +1,36 @@
 import styles from './JournalForm.module.css';
-
 import Button from '../Button/Button';
-import { useState } from 'react';
+import { useEffect, useReducer } from 'react';
+import { INITIAL_STATE, formReducer } from './JournalForm.state';
 
 function JournalForm({ addData }) {
-  const [formValidState, setFormValidState] = useState({
-    title: true,
-    text: true,
-    date: true
-  });
+  const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
+  const { isValid, isFormReadyToSubmit, values } = formState;
+
+  useEffect(() => {
+    let timerId;
+    if (!isValid.date || !isValid.text || !isValid.title) {
+      timerId = setTimeout(() => {
+        console.log('очистка состояния');
+        dispatchForm({ type: 'RESET_VALIDITY' });
+      }, 1000);
+    }
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [isValid]);
+
+  useEffect(() => {
+    if (isFormReadyToSubmit) {
+      addData(values);
+    }
+  }, [isFormReadyToSubmit]);
+
   const addJournalItem = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const formProps = Object.fromEntries(formData);
-    let isFormValid = true;
-
-    if (!formProps.title?.trim().length) {
-      setFormValidState((state) => ({ ...state, title: false }));
-      isFormValid = false;
-    } else {
-      setFormValidState((state) => ({ ...state, title: true }));
-    }
-    if (!formProps.text?.trim().length) {
-      setFormValidState((state) => ({ ...state, text: false }));
-      isFormValid = false;
-    } else {
-      setFormValidState((state) => ({ ...state, text: true }));
-    }
-    if (!formProps.date) {
-      setFormValidState((state) => ({ ...state, date: false }));
-      isFormValid = false;
-    } else {
-      setFormValidState((state) => ({ ...state, date: true }));
-    }
-
-    if (!isFormValid) {
-      console.log('Invalid data');
-      return;
-    }
-
-    addData(formProps);
+    dispatchForm({ type: 'SUBMIT', payload: formProps });
   };
 
   return (
@@ -48,7 +39,7 @@ function JournalForm({ addData }) {
         <input
           type="text"
           name="title"
-          className={`${styles['input-title']} ${formValidState.title ? '' : styles['invalid']}`}
+          className={`${styles['input-title']} ${!isValid.title ? '' : styles['invalid']}`}
         />
         <img src="./archive.svg" alt="archive" />
       </div>
@@ -62,7 +53,7 @@ function JournalForm({ addData }) {
           type="date"
           name="date"
           id="date"
-          className={`${styles['input']} ${formValidState.date ? '' : styles['invalid']}`}
+          className={`${styles['input']} ${!isValid.date ? '' : styles['invalid']}`}
         />
       </div>
 
@@ -76,7 +67,7 @@ function JournalForm({ addData }) {
       <textarea
         name="text"
         className={`${styles['input']} ${styles['input-textarea']} ${
-          formValidState.text ? '' : styles['invalid']
+          !isValid.text ? '' : styles['invalid']
         }`}
       />
       <Button text="Сохранить" />

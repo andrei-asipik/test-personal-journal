@@ -4,7 +4,7 @@
   gap: 10px;
 }
 
-.input-title {
+/* .input-title {
   border: none;
   background: none;
   font-family: 'Source Sans 3', sans-serif;
@@ -24,7 +24,7 @@
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
-}
+} */
 
 .form-label {
   display: flex;

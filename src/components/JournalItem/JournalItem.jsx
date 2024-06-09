@@ -1,7 +1,9 @@
 import './JournalItem.css';
 
 function JournalItem({ title, text, date }) {
+  // console.log(date);
   const formattedDate = new Intl.DateTimeFormat('ru-RU').format(date);
+  // const formattedDate1 = '0101';
 
   return (
     <>

@@ -9,15 +9,6 @@ import JournalForm from './components/JournalForm/JournalForm';
 import { useEffect, useState } from 'react';
 
 function App() {
-  // const INITIAL_DATA = [
-  //   {
-  //     title: 'Title 1',
-  //     text: 'Text 1',
-  //     date: new Date(),
-  //     tag: ''
-  //   }
-  // ];
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -30,10 +21,11 @@ function App() {
   useEffect(() => {
     if (data.length) {
       localStorage.setItem('data', JSON.stringify(data));
+      // console.log(JSON.stringify(data));
     }
   }, [data]);
 
-  const addData = (newDataItem) => {
+  const onSubmit = (newDataItem) => {
     setData((dataItems) => [
       ...dataItems,
       {
@@ -52,7 +44,7 @@ function App() {
         <JournalList dataItems={data} />
       </LeftPannel>
       <Body>
-        <JournalForm addData={addData} />
+        <JournalForm onSubmit={onSubmit} />
       </Body>
     </div>
   );

@@ -7,11 +7,10 @@ import Header from './components/Header/Header';
 import JournalAddButton from './components/JournalAddButton/JournalAddButton';
 import JournalForm from './components/JournalForm/JournalForm';
 import { useEffect, useState } from 'react';
-import { UserContext } from './context/user.context';
+import { UserContextProvider } from './context/user.context';
 
 function App() {
   const [data, setData] = useState([]);
-  const [userId, setUserId] = useState(1);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('data'));
@@ -39,7 +38,7 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={{ userId, setUserId }}>
+    <UserContextProvider>
       <div className="app">
         <LeftPannel>
           <Header />
@@ -50,7 +49,7 @@ function App() {
           <JournalForm onSubmit={onSubmit} />
         </Body>
       </div>
-    </UserContext.Provider>
+    </UserContextProvider>
   );
 }
 

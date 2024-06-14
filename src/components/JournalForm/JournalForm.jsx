@@ -45,6 +45,10 @@ function JournalForm({ onSubmit }) {
   }, [isValid]);
 
   useEffect(() => {
+    dispatchForm({ type: 'SET_VALUE', payload: { userId } });
+  }, [userId]);
+
+  useEffect(() => {
     if (isFormReadyToSubmit) {
       onSubmit(values);
       dispatchForm({ type: 'CLEAR' });

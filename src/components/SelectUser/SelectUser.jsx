@@ -5,8 +5,7 @@ function SelectUser() {
   const { userId, setUserId } = useContext(UserContext);
 
   const changeUser = (e) => {
-    setUserId(e.target.value);
-    console.log(e.target.value);
+    setUserId(Number(e.target.value));
   };
 
   return (

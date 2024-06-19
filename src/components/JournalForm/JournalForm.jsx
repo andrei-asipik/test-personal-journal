@@ -5,7 +5,7 @@ import { useEffect, useReducer, useRef, useContext } from 'react';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import { UserContext } from '../../context/user.context';
 
-function JournalForm({ onSubmit, data }) {
+function JournalForm({ onSubmit, onDelete, data }) {
   const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
   const { isValid, isFormReadyToSubmit, values } = formState;
   const titleRef = useRef();
@@ -31,15 +31,19 @@ function JournalForm({ onSubmit, data }) {
   };
 
   useEffect(() => {
+    if (!data) {
+      dispatchForm({ type: 'CLEAR' });
+      dispatchForm({ type: 'SET_VALUE', payload: { userId } });
+    }
     dispatchForm({ type: 'SET_VALUE', payload: { ...data } });
-  }, [data]);
+  }, [data, userId]);
 
   useEffect(() => {
     let timerId;
     if (!isValid.date || !isValid.text || !isValid.title) {
       focusError(isValid);
       timerId = setTimeout(() => {
-        console.log('очистка состояния');
+        // console.log('очистка состояния');
         dispatchForm({ type: 'RESET_VALIDITY' });
       }, 2000);
     }
@@ -69,9 +73,14 @@ function JournalForm({ onSubmit, data }) {
     dispatchForm({ type: 'SET_VALUE', payload: { [e.target.name]: e.target.value } });
   };
 
+  const deleteJournalitem = () => {
+    onDelete(data.id);
+    dispatchForm({ type: 'CLEAR' });
+    dispatchForm({ type: 'SET_VALUE', payload: { userId } });
+  };
+
   return (
     <form className={styles['journal-form']} onSubmit={addJournalItem}>
-      {userId}
       <div className={styles['input-row']}>
         <Input
           type="text"
@@ -82,7 +91,11 @@ function JournalForm({ onSubmit, data }) {
           isValid={isValid.title}
           appearence={'title'}
         />
-        <img src="./archive.svg" alt="archive" />
+        {data?.id && (
+          <button className={styles['archive-button']} type="button" onClick={deleteJournalitem}>
+            <img src="./archive.svg" alt="archive" />
+          </button>
+        )}
       </div>
 
       <div className={styles['input-row']}>
@@ -100,7 +113,6 @@ function JournalForm({ onSubmit, data }) {
           onChange={onChange}
         />
       </div>
-
       <div className={styles['input-row']}>
         <label htmlFor="tag" className={styles['form-label']}>
           <img src="./folder.svg" alt="folder" />
@@ -117,7 +129,7 @@ function JournalForm({ onSubmit, data }) {
           isValid.text ? '' : styles['invalid']
         }`}
       />
-      <Button text="Сохранить" />
+      <Button>Сохранить</Button>
     </form>
   );
 }

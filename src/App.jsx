@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [items, setItems] = useLocalStorage('data');
-  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const addItem = (item) => {
     let updatedItems;
@@ -41,16 +41,25 @@ function App() {
     }));
   }
 
+  const deleteItem = (id) => {
+    let updatedItems = mapItems(items).filter((i) => i.id !== id);
+    setItems(updatedItems);
+  };
+
   return (
     <UserContextProvider>
       <div className="app">
         <LeftPannel>
           <Header />
-          <JournalAddButton />
+          <JournalAddButton
+            clearForm={() => {
+              setSelectedItem(null);
+            }}
+          />
           <JournalList dataItems={mapItems(items)} setItem={setSelectedItem} />
         </LeftPannel>
         <Body>
-          <JournalForm onSubmit={addItem} data={selectedItem} />
+          <JournalForm onSubmit={addItem} onDelete={deleteItem} data={selectedItem} />
         </Body>
       </div>
     </UserContextProvider>

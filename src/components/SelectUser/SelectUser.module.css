@@ -1,0 +1,15 @@
+.select {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #323232;
+  padding: 10px;
+  font-size: 1rem;
+}
+.select option {
+  background-color: #323232;
+  color: white;
+  text-align: center;
+}
+.select:hover {
+  background-color: rgba(255, 255, 255, 0.084);
+  cursor: pointer;
+}

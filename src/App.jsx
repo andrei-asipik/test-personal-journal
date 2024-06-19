@@ -6,6 +6,7 @@ import JournalList from './components/JournalList/JournalList';
 import Header from './components/Header/Header';
 import JournalAddButton from './components/JournalAddButton/JournalAddButton';
 import JournalForm from './components/JournalForm/JournalForm';
+import SelectUser from './components/SelectUser/SelectUser';
 import { useLocalStorage } from './hooks/useLocalStorage.hook';
 import { UserContextProvider } from './context/user.context';
 import { useState } from 'react';
@@ -50,7 +51,13 @@ function App() {
     <UserContextProvider>
       <div className="app">
         <LeftPannel>
-          <Header />
+          <Header>
+            <SelectUser
+              clearForm={() => {
+                setSelectedItem(null);
+              }}
+            />
+          </Header>
           <JournalAddButton
             clearForm={() => {
               setSelectedItem(null);

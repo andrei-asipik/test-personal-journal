@@ -12,14 +12,14 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [items, setItems] = useLocalStorage('data');
+  const [items, setItems] = useLocalStorage('data', []);
   const [selectedItem, setSelectedItem] = useState(null);
 
   const addItem = (item) => {
     let updatedItems;
     if (!item.id) {
       updatedItems = [
-        ...items,
+        ...mapItems(items),
         {
           ...item,
           date: new Date(item.date),
@@ -56,7 +56,7 @@ function App() {
               setSelectedItem(null);
             }}
           />
-          <JournalList dataItems={mapItems(items)} setItem={setSelectedItem} />
+          <JournalList dataItems={items} setItem={setSelectedItem} />
         </LeftPannel>
         <Body>
           <JournalForm onSubmit={addItem} onDelete={deleteItem} data={selectedItem} />

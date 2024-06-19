@@ -1,9 +1,13 @@
 import './JournalItem.css';
 
 function JournalItem({ title, text, date }) {
-  // console.log(date);
-  const formattedDate = new Intl.DateTimeFormat('ru-RU').format(date);
-  // const formattedDate1 = '0101';
+  let formattedDate;
+
+  if (date instanceof Date && !isNaN(date)) {
+    formattedDate = new Intl.DateTimeFormat('ru-RU').format(date);
+  } else {
+    formattedDate = 'Некорректная дата';
+  }
 
   return (
     <>

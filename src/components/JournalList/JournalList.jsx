@@ -9,21 +9,18 @@ function JournalList({ dataItems, setItem }) {
 
   const sortItems = (a, b) => (a.date > b.date ? 1 : -1);
 
+  const filteredItems = dataItems.filter((el) => el.userId === userId).sort(sortItems);
+
   return (
     <div className="journal-list">
-      {dataItems.length === 0 ? (
+      {filteredItems.length === 0 ? (
         <p>Записей пока нет</p>
       ) : (
-        dataItems
-          .filter((el) => el.userId === userId)
-          .sort(sortItems)
-          .map((el) => {
-            return (
-              <CardButton key={el.id} onClick={() => setItem(el)}>
-                <JournalItem title={el.title} text={el.text} date={el.date} />
-              </CardButton>
-            );
-          })
+        filteredItems.map((el) => (
+          <CardButton key={el.id} onClick={() => setItem(el)}>
+            <JournalItem title={el.title} text={el.text} date={el.date} />
+          </CardButton>
+        ))
       )}
     </div>
   );

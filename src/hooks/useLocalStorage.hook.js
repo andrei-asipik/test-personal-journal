@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-export function useLocalStorage(key) {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    const res = JSON.parse(localStorage.getItem(key));
-    if (res) {
-      setData(res);
+export function useLocalStorage(key, initialValue = []) {
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem(key);
+    if (savedData) {
+      return JSON.parse(savedData);
+    } else {
+      localStorage.setItem(key, JSON.stringify(initialValue));
+      return initialValue;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   const saveData = (newData) => {
     localStorage.setItem(key, JSON.stringify(newData));

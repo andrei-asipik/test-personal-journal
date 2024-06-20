@@ -82,6 +82,7 @@ function JournalForm({ onSubmit, onDelete, data }) {
   return (
     <form className={styles['journal-form']} onSubmit={addJournalItem}>
       <div className={styles['input-row']}>
+        <label htmlFor="date" className={styles['form-label']}></label>
         <Input
           type="text"
           name="title"
@@ -97,7 +98,6 @@ function JournalForm({ onSubmit, onDelete, data }) {
           </button>
         )}
       </div>
-
       <div className={styles['input-row']}>
         <label htmlFor="date" className={styles['form-label']}>
           <img src="./calendar.svg" alt="date" />
@@ -120,16 +120,27 @@ function JournalForm({ onSubmit, onDelete, data }) {
         </label>
         <Input type="text" value={values.tag} onChange={onChange} name="tag" id="tag" />
       </div>
-      <textarea
-        name="text"
-        value={values.text}
-        ref={textRef}
-        onChange={onChange}
-        className={`${styles['input']} ${styles['input-textarea']} ${
-          isValid.text ? '' : styles['invalid']
-        }`}
-      />
-      <Button>Сохранить</Button>
+      <div className={styles['input-row']}>
+        <label
+          htmlFor="tag"
+          className={`${styles['form-label']} ${styles['textarea-form-label']} `}
+        >
+          <img src="./pencil.svg" alt="folder" />
+          <span>Текст</span>
+        </label>
+        <textarea
+          name="text"
+          value={values.text}
+          cols="30"
+          rows="5"
+          ref={textRef}
+          onChange={onChange}
+          className={` ${styles['input-textarea']} ${isValid.text ? '' : styles['invalid']}`}
+        />
+      </div>
+      <div className={styles['button-container']}>
+        <Button>Сохранить</Button>
+      </div>
     </form>
   );
 }

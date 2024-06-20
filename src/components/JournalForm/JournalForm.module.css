@@ -17,9 +17,19 @@
   align-items: center;
   gap: 50px;
 }
+.input-row:nth-child(4) {
+  align-items: start;
+}
+
+.textarea-form-label {
+  display: flex;
+}
 
 .input-textarea {
   resize: vertical;
+  width: 100%;
+  padding: 10px;
+  background: 0;
 }
 
 .invalid {
@@ -40,4 +50,9 @@
 
 .archive-button:hover {
   background: rgba(255, 254, 254, 0.2);
+}
+
+.button-container {
+  display: flex;
+  justify-content: end;
 }
